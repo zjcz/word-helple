@@ -1,5 +1,5 @@
-import React, { useState, useEffect }  from 'react';
-import SuggestWords, { MatchCriteria } from '../SuggestWords';
+import React, { useState }  from 'react';
+import { MatchCriteria } from '../SuggestWords';
 
 /**
  * interface for props for the WordSearchForm component
@@ -35,7 +35,7 @@ function WordSearchForm(props:WordSearchFormProp) {
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
       const { name, value } = (e.target as HTMLInputElement);      
       setSearchValues ({
-          ... values,
+          ...values,
           [name]: value,
       });
   };
