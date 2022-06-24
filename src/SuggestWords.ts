@@ -36,7 +36,6 @@ export class MatchCriteria {
         this.containLetters.trim() != '' || 
         this.notContainLetters.trim() != '' ;
     }
-
 }
 
 /**
@@ -63,56 +62,6 @@ function SuggestWords(wordData: MatchCriteria, dictionary: string[]) {
 
     
 }
-
-// /**
-//  * Return true if the wortd matches the criteria
-//  * @param wordData search data on the matching word
-//  * @param word word to match on
-//  * @returns true if the word matches the matchCriteria, otherwise false
-//  */
-// function isMatchingWord(wordData: MatchCriteria, word: string) {
-//     let isMatch: boolean = true;
-
-//     if (wordData != null && word != null) {
-//         let letters: string[] = word.toLowerCase().split("");
-
-//         // check criteria has been entered
-//         if (!wordData.hasData()) {
-//             // no match criteria specified
-//             return false;
-//         }
-        
-//         // first check the exact match letters
-//         for (let index in letters) {
-//             if (wordData.correctLetters[index].trim() != '' && wordData.correctLetters[index] != letters[index]) {
-//                 isMatch = false;
-//                 break;
-//             }
-//         }
-
-//         // next check the contains letters
-//         if (isMatch && wordData.containLetters.length > 0) {
-//             for (let containsletter of wordData.containLetters) {
-//                 if (!word.includes(containsletter)) {
-//                     isMatch = false;
-//                     break;
-//                 }
-//             }
-//         }
-
-//         // finally checks the not contains letters
-//         if (isMatch && wordData.notContainLetters.length > 0) {
-//             for (let letter of letters) {
-//                 if (wordData.notContainLetters.includes(letter)) {
-//                     isMatch = false;
-//                     break;
-//                 }
-//             }
-//         }
-//     }
-
-//     return isMatch;
-// }
 
 /**
  * Convert the word search criteria to a regular expression
