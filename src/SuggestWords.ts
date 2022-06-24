@@ -28,13 +28,13 @@ export class MatchCriteria {
      * @returns Return true if one or more fields has been set
      */
     hasData() : boolean {
-        return this.correctLetters[0].trim() != '' || 
-        this.correctLetters[1].trim() != '' || 
-        this.correctLetters[2].trim() != '' || 
-        this.correctLetters[3].trim() != '' || 
-        this.correctLetters[4].trim() != '' || 
-        this.containLetters.trim() != '' || 
-        this.notContainLetters.trim() != '' ;
+        return this.correctLetters[0].trim() !== '' || 
+        this.correctLetters[1].trim() !== '' || 
+        this.correctLetters[2].trim() !== '' || 
+        this.correctLetters[3].trim() !== '' || 
+        this.correctLetters[4].trim() !== '' || 
+        this.containLetters.trim() !== '' || 
+        this.notContainLetters.trim() !== '' ;
     }
 }
 
@@ -53,7 +53,7 @@ function SuggestWords(wordData: MatchCriteria, dictionary: string[]) {
         return [];
     }
 
-    if (wordData.correctLetters.length != 5) {
+    if (wordData.correctLetters.length !== 5) {
         throw new TypeError("exected 5 correctLetters entries, got " + wordData.correctLetters.length);
     }
 
@@ -75,19 +75,19 @@ function convertToRegex(wordData: MatchCriteria) {
 
         // first, add the contains and not contains letters
         regEx = "^";
-        if (wordData.containLetters != null && wordData.containLetters.trim() != "") {
+        if (wordData.containLetters !== null && wordData.containLetters.trim() !== "") {
             for (const ch of wordData.containLetters.trim().toLowerCase()) {
                 regEx += `(?=[a-z]*[${ch}])`;    
             }
         }
-        if (wordData.notContainLetters != null && wordData.notContainLetters.trim() != "") {
+        if (wordData.notContainLetters !== null && wordData.notContainLetters.trim() !== "") {
             regEx += `(?![a-z]*[${wordData.notContainLetters.trim().toLowerCase()}])`;
         }
 
         // loop through the 5 possible correct letters and add them to the regex
         // if no correct letter is included, use the . char for any character
         for (let index in wordData.correctLetters) {
-            if (wordData.correctLetters[index] != null && wordData.correctLetters[index].trim() != "") {
+            if (wordData.correctLetters[index] !== null && wordData.correctLetters[index].trim() !== "") {
                 regEx += wordData.correctLetters[index].trim().toLowerCase();
             } else {
                 regEx += ".";
