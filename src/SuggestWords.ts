@@ -50,67 +50,106 @@ function SuggestWords(wordData: MatchCriteria, dictionary: string[]) {
         return [];
     }
 
-    if (!wordData) {
-        return dictionary;
+    if (!wordData || !wordData.hasData()) {
+        return [];
     }
 
     if (wordData.correctLetters.length != 5) {
         throw new TypeError("exected 5 correctLetters entries, got " + wordData.correctLetters.length);
     }
 
-    return dictionary.filter(entry => isMatchingWord(wordData, entry));
+    const regEx = convertToRegex(wordData);
+    return dictionary.filter(entry => entry.match(regEx));
 
     
 }
 
-/**
- * Return true if the wortd matches the criteria
- * @param wordData search data on the matching word
- * @param word word to match on
- * @returns true if the word matches the matchCriteria, otherwise false
- */
-function isMatchingWord(wordData: MatchCriteria, word: string) {
-    let isMatch: boolean = true;
+// /**
+//  * Return true if the wortd matches the criteria
+//  * @param wordData search data on the matching word
+//  * @param word word to match on
+//  * @returns true if the word matches the matchCriteria, otherwise false
+//  */
+// function isMatchingWord(wordData: MatchCriteria, word: string) {
+//     let isMatch: boolean = true;
 
-    if (wordData != null && word != null) {
-        let letters: string[] = word.toLowerCase().split("");
+//     if (wordData != null && word != null) {
+//         let letters: string[] = word.toLowerCase().split("");
 
-        // check criteria has been entered
-        if (!wordData.hasData()) {
-            // no match criteria specified
-            return false;
-        }
+//         // check criteria has been entered
+//         if (!wordData.hasData()) {
+//             // no match criteria specified
+//             return false;
+//         }
         
-        // first check the exact match letters
-        for (let index in letters) {
-            if (wordData.correctLetters[index].trim() != '' && wordData.correctLetters[index] != letters[index]) {
-                isMatch = false;
-                break;
+//         // first check the exact match letters
+//         for (let index in letters) {
+//             if (wordData.correctLetters[index].trim() != '' && wordData.correctLetters[index] != letters[index]) {
+//                 isMatch = false;
+//                 break;
+//             }
+//         }
+
+//         // next check the contains letters
+//         if (isMatch && wordData.containLetters.length > 0) {
+//             for (let containsletter of wordData.containLetters) {
+//                 if (!word.includes(containsletter)) {
+//                     isMatch = false;
+//                     break;
+//                 }
+//             }
+//         }
+
+//         // finally checks the not contains letters
+//         if (isMatch && wordData.notContainLetters.length > 0) {
+//             for (let letter of letters) {
+//                 if (wordData.notContainLetters.includes(letter)) {
+//                     isMatch = false;
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+
+//     return isMatch;
+// }
+
+/**
+ * Convert the word search criteria to a regular expression
+ * @param wordData word search criteria to convert
+ * @returns regex
+ */
+function convertToRegex(wordData: MatchCriteria) {
+    let regEx:string = "";
+
+    if (wordData != null && wordData.hasData()) {
+
+        // first, add the contains and not contains letters
+        regEx = "^";
+        if (wordData.containLetters != null && wordData.containLetters.trim() != "") {
+            for (const ch of wordData.containLetters.trim().toLowerCase()) {
+                regEx += `(?=[a-z]*[${ch}])`;    
+            }
+        }
+        if (wordData.notContainLetters != null && wordData.notContainLetters.trim() != "") {
+            regEx += `(?![a-z]*[${wordData.notContainLetters.trim().toLowerCase()}])`;
+        }
+
+        // loop through the 5 possible correct letters and add them to the regex
+        // if no correct letter is included, use the . char for any character
+        for (let index in wordData.correctLetters) {
+            if (wordData.correctLetters[index] != null && wordData.correctLetters[index].trim() != "") {
+                regEx += wordData.correctLetters[index].trim().toLowerCase();
+            } else {
+                regEx += ".";
             }
         }
 
-        // next check the contains letters
-        if (isMatch && wordData.containLetters.length > 0) {
-            for (let containsletter of wordData.containLetters) {
-                if (!word.includes(containsletter)) {
-                    isMatch = false;
-                    break;
-                }
-            }
-        }
-
-        // finally checks the not contains letters
-        if (isMatch && wordData.notContainLetters.length > 0) {
-            for (let letter of letters) {
-                if (wordData.notContainLetters.includes(letter)) {
-                    isMatch = false;
-                    break;
-                }
-            }
-        }
+        // finally add the end of string char
+        regEx += "$";
     }
 
-    return isMatch;
+    return regEx;
 }
 
 export default SuggestWords;
