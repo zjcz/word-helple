@@ -1,17 +1,17 @@
 import React, { useState, useEffect }  from 'react';
-import internal from 'stream';
 import './App.css';
 import WordSearchForm from './components/WordSearchForm';
 import SuggestedWordsList from './components/SuggestedWordsList';
 import SuggestWords, { MatchCriteria } from './SuggestWords';
 
 function App() {
-  const [wordData, setWordData] = useState(new MatchCriteria());
-  const [suggestedWords, setSuggestedWords] = useState(['']); 
-  const [dictionary, setDictionary] = useState(['']);
+  const [wordData, setWordData] = useState<MatchCriteria>(new MatchCriteria());
+  const [suggestedWords, setSuggestedWords] = useState<Array<string>>([]); 
+  const [dictionary, setDictionary] = useState<Array<string>>([]);
 
   const matchCriteriaChanged = (newMatchData: MatchCriteria) => {
     setWordData(newMatchData);
+    setSuggestedWords(SuggestWords(newMatchData, dictionary));
   };
 
   useEffect(() => {
@@ -19,12 +19,8 @@ function App() {
    const myMarkdownFile = require("./wordlist.txt");
    fetch(myMarkdownFile)
     .then((res: Response) => res.text())
-    .then((data: String) => {console.log(data); setDictionary(data.split('\n'))});
+    .then((data: String) => {setDictionary(data.split('\n').sort())});
   }, []);
-
-  useEffect(() => {
-    setSuggestedWords(SuggestWords(wordData, dictionary));
-  }, [wordData]);
 
   return (
     <div>
