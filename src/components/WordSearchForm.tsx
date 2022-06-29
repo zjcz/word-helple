@@ -27,16 +27,25 @@ function WordSearchForm(props:WordSearchFormProp) {
   };
 
   const [values, setSearchValues] =  useState(defaultSearchValues);
+  const matchingCharRegex = new RegExp('^[a-z]+$');
 
   /**
    * Handle the user input from one of the form elements
    * @param e event info
    */
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-      const { name, value } = (e.target as HTMLInputElement);      
+      const { name, value } = (e.target as HTMLInputElement);  
+      
+      // check if the value is in the list of acceptable characters
+      const lowerCaseValue = value.toLowerCase();      
+      if (lowerCaseValue !== '' && !matchingCharRegex.test(lowerCaseValue)) {              
+        return;        
+      }
+
+      // input is valid, add it to the search values
       setSearchValues ({
           ...values,
-          [name]: value,
+          [name]: lowerCaseValue,
       });
   };
   
@@ -54,7 +63,7 @@ function WordSearchForm(props:WordSearchFormProp) {
   };
   
   return (
-    <form>
+    <form autoComplete='false' autoCapitalize='false'>
       <div>
         <p>Correctly Placed Letters</p>
         <input type="text" name="correctLetter0" maxLength={1} value={values.correctLetter0} onChange={handleInputChange} />
