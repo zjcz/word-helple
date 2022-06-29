@@ -15,11 +15,11 @@ test('no errors on no match data', () => {
 test('match correct letters', () => {
     
     let x: MatchCriteria = new MatchCriteria();
-    x.correctLetters[0] = 'c';
-    x.correctLetters[1] = 'a';
-    x.correctLetters[2] = 'b';
-    x.correctLetters[3] = 'l';
-    x.correctLetters[4] = 'e';
+    x.correctLetter0 = 'c';
+    x.correctLetter1 = 'a';
+    x.correctLetter2 = 'b';
+    x.correctLetter3 = 'l';
+    x.correctLetter4 = 'e';
 
     let match = SuggestWords(x, ['cable']);  
     expect(match.length).toEqual(1);
@@ -29,11 +29,11 @@ test('match correct letters', () => {
 test('match correct letters - no match for wrong order', () => {
     
     let x: MatchCriteria = new MatchCriteria();
-    x.correctLetters[0] = 'e';
-    x.correctLetters[1] = 'l';
-    x.correctLetters[2] = 'b';
-    x.correctLetters[3] = 'a';
-    x.correctLetters[4] = 'c';
+    x.correctLetter0 = 'e';
+    x.correctLetter1 = 'l';
+    x.correctLetter2 = 'b';
+    x.correctLetter3 = 'a';
+    x.correctLetter4 = 'c';
 
     let match = SuggestWords(x, ['cable']);  
     expect(match.length).toEqual(0);    
@@ -42,8 +42,8 @@ test('match correct letters - no match for wrong order', () => {
 test('match correct letters - partial match on multiple words', () => {
     
     let x: MatchCriteria = new MatchCriteria();
-    x.correctLetters[0] = 'c';
-    x.correctLetters[1] = 'a';
+    x.correctLetter0 = 'c';
+    x.correctLetter1 = 'a';
 
     let match = SuggestWords(x, ['cable', 'carry', 'horse']);  
     expect(match.length).toEqual(2);  
@@ -54,7 +54,7 @@ test('match correct letters - partial match on multiple words', () => {
 test('match correct letters - partial match on multiple words - not starting at 0', () => {
     
     let x: MatchCriteria = new MatchCriteria();    
-    x.correctLetters[1] = 'a';
+    x.correctLetter1 = 'a';
 
     let match = SuggestWords(x, ['cable', 'carry', 'horse']);  
     expect(match.length).toEqual(2);  
@@ -148,7 +148,7 @@ test('ignore words without not containing letters - multiple lettersr', () => {
 test('correct, contains and not contains same letter', () => {
     
     let x: MatchCriteria = new MatchCriteria();
-    x.correctLetters[0] = 'c'
+    x.correctLetter0 = 'c'
     x.containLetters = 'c'
     x.notContainLetters = 'c';
 
@@ -159,7 +159,7 @@ test('correct, contains and not contains same letter', () => {
 test('combination match on word', () => {
     
     let x: MatchCriteria = new MatchCriteria();
-    x.correctLetters[0] = 'c'
+    x.correctLetter0 = 'c'
     x.containLetters = 'c'
     x.notContainLetters = 'h';
 
@@ -171,7 +171,7 @@ test('combination match on word', () => {
 test('combination match on word - upper case', () => {
     
     let x: MatchCriteria = new MatchCriteria();
-    x.correctLetters[0] = 'C'
+    x.correctLetter0 = 'C'
     x.containLetters = 'C'
     x.notContainLetters = 'H';
 

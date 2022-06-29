@@ -4,8 +4,12 @@
 export class MatchCriteria {
     /**
      * Array of the correct letters in the correct positions
-     */
-    correctLetters: Array<string>;
+     */    
+    correctLetter0: string;
+    correctLetter1: string;
+    correctLetter2: string;
+    correctLetter3: string;
+    correctLetter4: string;
 
     /**
      * String of letters contained in the match word at some position
@@ -18,7 +22,11 @@ export class MatchCriteria {
     notContainLetters: string;
 
     constructor() {
-        this.correctLetters = ['', '', '', '', '']
+        this.correctLetter0 = '';
+        this.correctLetter1 = '';
+        this.correctLetter2 = '';
+        this.correctLetter3 = '';
+        this.correctLetter4 = '';
         this.containLetters = '';
         this.notContainLetters = '';
     }
@@ -28,11 +36,11 @@ export class MatchCriteria {
      * @returns Return true if one or more fields has been set
      */
     hasData() : boolean {
-        return this.correctLetters[0].trim() !== '' || 
-        this.correctLetters[1].trim() !== '' || 
-        this.correctLetters[2].trim() !== '' || 
-        this.correctLetters[3].trim() !== '' || 
-        this.correctLetters[4].trim() !== '' || 
+        return this.correctLetter0.trim() !== '' || 
+        this.correctLetter1.trim() !== '' || 
+        this.correctLetter2.trim() !== '' || 
+        this.correctLetter3.trim() !== '' || 
+        this.correctLetter4.trim() !== '' || 
         this.containLetters.trim() !== '' || 
         this.notContainLetters.trim() !== '' ;
     }
@@ -53,14 +61,9 @@ function SuggestWords(wordData: MatchCriteria, dictionary: string[]) {
         return [];
     }
 
-    if (wordData.correctLetters.length !== 5) {
-        throw new TypeError("exected 5 correctLetters entries, got " + wordData.correctLetters.length);
-    }
-
-    const regEx = convertToRegex(wordData);
-    return dictionary.filter(entry => entry.match(regEx));
-
-    
+    const matchingCharRegex = convertToRegex(wordData);
+    const regex = new RegExp(matchingCharRegex);
+    return dictionary.filter(entry => (regex.test(entry)));    
 }
 
 /**
@@ -84,15 +87,13 @@ function convertToRegex(wordData: MatchCriteria) {
             regEx += `(?![a-z]*[${wordData.notContainLetters.trim().toLowerCase()}])`;
         }
 
-        // loop through the 5 possible correct letters and add them to the regex
-        // if no correct letter is included, use the . char for any character
-        for (let index in wordData.correctLetters) {
-            if (wordData.correctLetters[index] !== null && wordData.correctLetters[index].trim() !== "") {
-                regEx += wordData.correctLetters[index].trim().toLowerCase();
-            } else {
-                regEx += ".";
-            }
-        }
+        // finally action the correct letters and add them to the regex
+        // if no correct letter is included, use the . char for any character        
+        regEx += (wordData.correctLetter0 !== null && wordData.correctLetter0.trim() !== "") ? wordData.correctLetter0.trim().toLowerCase() : ".";
+        regEx += (wordData.correctLetter1 !== null && wordData.correctLetter1.trim() !== "") ? wordData.correctLetter1.trim().toLowerCase() : ".";
+        regEx += (wordData.correctLetter2 !== null && wordData.correctLetter2.trim() !== "") ? wordData.correctLetter2.trim().toLowerCase() : ".";
+        regEx += (wordData.correctLetter3 !== null && wordData.correctLetter3.trim() !== "") ? wordData.correctLetter3.trim().toLowerCase() : ".";
+        regEx += (wordData.correctLetter4 !== null && wordData.correctLetter4.trim() !== "") ? wordData.correctLetter4.trim().toLowerCase() : ".";
 
         // finally add the end of string char
         regEx += "$";

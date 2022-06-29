@@ -16,45 +16,48 @@ interface WordSearchFormProp {
  * @returns JSX for the search form
  */
 function WordSearchForm(props:WordSearchFormProp) {
-  const defaultSearchValues = {
-    correctLetter0: props.wordData.correctLetters[0],
-    correctLetter1: props.wordData.correctLetters[1],
-    correctLetter2: props.wordData.correctLetters[2],
-    correctLetter3: props.wordData.correctLetters[3],
-    correctLetter4: props.wordData.correctLetters[4],
-    containsLetters: props.wordData.containLetters,
-    incorrectLetters: props.wordData.notContainLetters,
-  };
-
-  const [values, setSearchValues] =  useState(defaultSearchValues);
+  const [values, setSearchValues] =  useState<MatchCriteria>(props.wordData);
+  const matchingCharRegex = new RegExp('^[a-z]+$');
 
   /**
    * Handle the user input from one of the form elements
    * @param e event info
    */
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-      const { name, value } = (e.target as HTMLInputElement);      
-      setSearchValues ({
-          ...values,
-          [name]: value,
-      });
+      const { name, value } = (e.target as HTMLInputElement);  
+      
+      // check if the value is in the list of acceptable characters
+      const lowerCaseValue = value.toLowerCase();      
+      if (lowerCaseValue !== '' && !matchingCharRegex.test(lowerCaseValue)) {              
+        return;        
+      }
+
+      // input is valid, add it to the search values and save to state
+      const searchValues: MatchCriteria = Object.create(values);
+      if (name === "correctLetter0") {
+        searchValues.correctLetter0 = lowerCaseValue;
+      } else if (name === "correctLetter1") {
+        searchValues.correctLetter1 = lowerCaseValue;
+      } else if (name === "correctLetter2") {
+        searchValues.correctLetter2 = lowerCaseValue;
+      } else if (name === "correctLetter3") {
+        searchValues.correctLetter3 = lowerCaseValue;
+      } else if (name === "correctLetter4") {
+        searchValues.correctLetter4 = lowerCaseValue;
+      } else if (name === "containLetters") {
+        searchValues.containLetters = lowerCaseValue;
+      } else if (name === "notContainLetters") {
+        searchValues.notContainLetters = lowerCaseValue;
+      }
+      setSearchValues(searchValues);
   };
   
   function getSuggestWords() {
-      let searchCriteria: MatchCriteria = new MatchCriteria();
-      searchCriteria.correctLetters = [values.correctLetter0,
-                                        values.correctLetter1,
-                                        values.correctLetter2,
-                                        values.correctLetter3,
-                                        values.correctLetter4];
-      searchCriteria.containLetters = values.containsLetters;
-      searchCriteria.notContainLetters = values.incorrectLetters;
-
-    props.suggestWordsCallback(searchCriteria);      
+    props.suggestWordsCallback(values);      
   };
   
   return (
-    <form>
+    <form autoComplete='false' autoCapitalize='false'>
       <div>
         <p>Correctly Placed Letters</p>
         <input type="text" name="correctLetter0" maxLength={1} value={values.correctLetter0} onChange={handleInputChange} />
@@ -65,11 +68,11 @@ function WordSearchForm(props:WordSearchFormProp) {
       </div>
       <div>
         <p>Right Letters, Wrong Place</p>
-        <input type="text" name="containsLetters" maxLength={26} value={values.containsLetters} onChange={handleInputChange} />
+        <input type="text" name="containLetters" maxLength={26} value={values.containLetters} onChange={handleInputChange} />
       </div>
       <div>
         <p>Wrong Letters</p>
-        <input type="text" name="incorrectLetters" maxLength={26} value={values.incorrectLetters} onChange={handleInputChange} />
+        <input type="text" name="notContainLetters" maxLength={26} value={values.notContainLetters} onChange={handleInputChange} />
       </div>      
         <button type="button" onClick={getSuggestWords}>Suggest Words</button>
       </form>  
