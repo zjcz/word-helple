@@ -1,0 +1,51 @@
+label {    
+    display: block;
+    margin-bottom: 1px;
+    font-size: x-large;
+}
+
+input {
+    border: 2px solid gray;
+    margin: 5px 5px 5px 5px;
+    height: 40px;
+    font-size: larger;
+    padding-left: 5px;
+    padding-right: 5px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.correctlyPlaced {
+    background-color: lightgreen;
+    width: 40px;
+    text-align: center;
+}
+
+.containsLetters {
+    background-color: goldenrod;
+    width: 250px;
+}
+
+.incorrectLetters {
+    background-color: lightgray;
+    width: 250px;
+}
+
+button {
+    margin: 5px 5px 5px 5px;
+    background-color: blue;    
+    border: none;
+    color: white;  
+    height: 50px;
+    width: 120px;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: darkblue;
+}

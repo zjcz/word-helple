@@ -24,8 +24,9 @@ function App() {
 
   return (
     <div>
-    <WordSearchForm wordData={wordData} suggestWordsCallback={matchCriteriaChanged} />
-    <SuggestedWordsList suggestedWords={suggestedWords} />
+      <h1>Word Helple</h1>
+      <WordSearchForm wordData={wordData} suggestWordsCallback={matchCriteriaChanged} />
+      <SuggestedWordsList suggestedWords={suggestedWords} />
     </div>
   );
 }
