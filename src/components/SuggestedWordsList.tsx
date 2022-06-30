@@ -1,3 +1,5 @@
+import './SuggestedWordsList.css';
+
 interface SuggestedWordsProp {
   suggestedWords: string[];
 }
@@ -11,7 +13,10 @@ function SuggestedWordsList(props: SuggestedWordsProp) {
 
   return (
     <div>
-    <ul>{wordList}</ul>
+      <div className="wordListContainer">
+        <ul>{wordList}</ul>
+      </div>
+      <div>{wordList.length} matches found</div>
     </div>
   );
 }
