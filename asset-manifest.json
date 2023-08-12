@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/word_helple/static/css/main.b1b7828a.css",
+    "main.js": "/word_helple/static/js/main.8ef711e5.js",
+    "static/js/787.b0a743ef.chunk.js": "/word_helple/static/js/787.b0a743ef.chunk.js",
+    "static/media/wordlist.txt": "/word_helple/static/media/wordlist.acedc581464a1c52f97c.txt",
+    "index.html": "/word_helple/index.html",
+    "main.b1b7828a.css.map": "/word_helple/static/css/main.b1b7828a.css.map",
+    "main.8ef711e5.js.map": "/word_helple/static/js/main.8ef711e5.js.map",
+    "787.b0a743ef.chunk.js.map": "/word_helple/static/js/787.b0a743ef.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b1b7828a.css",
+    "static/js/main.8ef711e5.js"
+  ]
+}
